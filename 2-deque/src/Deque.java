@@ -2,6 +2,9 @@ import javax.naming.OperationNotSupportedException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import edu.princeton.cs.algs4.StdOut;
+
+
 /**
  * Deque allows the first item to be added and removed and the last item to be added and removed
  * @param <Item> Generic item to use for the deque
@@ -172,47 +175,41 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     /**
-     * Prints out the class variables
+     * Gets the class variables
      */
-    private void debug() {
-        if (first != null) {
-            System.out.println("First: " + first.item);
-        }
-        if (last != null) {
-            System.out.println("Last: " + last.item);
-        }
-        System.out.println("Size: " + size);
+    public String toString() {
+        return "First: " + first.item + ", Last: " + last.item + ", Size: " + size;
     }
 
     public static void main(String[] args) {
-        System.out.println("TESTING");
+        StdOut.println("TESTING");
         String[] testStrings = {"a", "b", "c", "d", "e", "f", "g"};
         int[] testInts = {1,2,3,4,5,6};
 
         Deque<Integer> dequeInt = new Deque<>();
         Deque<String> dequeStr = new Deque<>();
 
-        System.out.println("Test: isEmpty() on empty deque");
+        StdOut.println("Test: isEmpty() on empty deque");
         boolean empty = dequeInt.isEmpty();
         if (empty) {
-            System.out.println("PASS");
+            StdOut.println("PASS");
         } else {
-            System.out.println("FAIL");
+            StdOut.println("FAIL");
         }
-        System.out.println();
+        StdOut.println();
 
-        System.out.println("Test: isEmpty() on filled deque");
+        StdOut.println("Test: isEmpty() on filled deque");
         dequeInt.addLast(testInts[0]);
         boolean notEmpty = !dequeInt.isEmpty();
         if (notEmpty) {
-            System.out.println("PASS");
+            StdOut.println("PASS");
         } else {
-            System.out.println("FAIL");
+            StdOut.println("FAIL");
         }
 
-        System.out.println();
+        StdOut.println();
 
-        System.out.println("Test: addFirst() addLast() removeLast() removeFirst()");
+        StdOut.println("Test: addFirst() addLast() removeLast() removeFirst()");
         dequeStr.addFirst(testStrings[4]);
         dequeStr.addFirst(testStrings[3]);
         dequeStr.addFirst(testStrings[2]);
@@ -225,9 +222,9 @@ public class Deque<Item> implements Iterable<Item> {
         String firstStr = dequeStr.removeFirst();
 
         if (lastStr.equals("g") && firstStr.equals("f")) {
-            System.out.println("PASS");
+            StdOut.println("PASS");
         } else {
-            System.out.println("FAIL");
+            StdOut.println("FAIL");
         }
 
     }

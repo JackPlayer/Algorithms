@@ -2,6 +2,8 @@
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 @SuppressWarnings("unchecked")
@@ -157,59 +159,59 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private void printVariables() {
-        System.out.print("\tSize: " + size);
-        System.out.print(", Capacity: " + capacity);
-        System.out.print(", Array: ");
+        StdOut.print("\tSize: " + size);
+        StdOut.print(", Capacity: " + capacity);
+        StdOut.print(", Array: ");
         for (Item i: queue) {
-            System.out.print(i + " ");
+            StdOut.print(i + " ");
         }
-        System.out.println();
+        StdOut.println();
     }
 
     public static void main(String[] args) {
         String[] strList = {"One", "Two", "Three", "Four", "Five", "Six"};
         Integer[] intList = {22, 18, 70, 50, 66};
-        RandomizedQueue<String> qString = new RandomizedQueue<String>();
-        RandomizedQueue<Integer> qInt = new RandomizedQueue<Integer>();
+        RandomizedQueue<String> qString = new RandomizedQueue<>();
+        RandomizedQueue<Integer> qInt = new RandomizedQueue<>();
 
-        System.out.println("--RANDOMIZED QUEUE TESTING---");
-        System.out.println("\nTEST: Initial conditions");
+        StdOut.println("--RANDOMIZED QUEUE TESTING---");
+        StdOut.println("\nTEST: Initial conditions");
         qString.printVariables();
         qInt.printVariables();
 
-        System.out.println("\nTEST: empty");
-        System.out.println("\t Empty: " + qString.isEmpty());
-        System.out.println("\t Empty: " + qInt.isEmpty());
+        StdOut.println("\nTEST: empty");
+        StdOut.println("\t Empty: " + qString.isEmpty());
+        StdOut.println("\t Empty: " + qInt.isEmpty());
 
 
-        System.out.println("\nTEST: Enqueue");
+        StdOut.println("\nTEST: Enqueue");
         qString.enqueue(strList[0]);
         qString.enqueue(strList[5]);
         qString.printVariables();
 
-        System.out.println("\nTEST: sample()");
-        System.out.println("\tRandom sample: " + qString.sample());
+        StdOut.println("\nTEST: sample()");
+        StdOut.println("\tRandom sample: " + qString.sample());
 
-        System.out.println("\nTEST: deque()");
-        System.out.println("\tDeque Element: " + qString.dequeue());
+        StdOut.println("\nTEST: deque()");
+        StdOut.println("\tDeque Element: " + qString.dequeue());
         qString.printVariables();
 
-        System.out.println("\nTEST: size");
-        System.out.println("\tSize: " + qString.size());
+        StdOut.println("\nTEST: size");
+        StdOut.println("\tSize: " + qString.size());
 
-        System.out.println("\nTEST: deque and enqueue");
+        StdOut.println("\nTEST: deque and enqueue");
         qInt.enqueue(intList[0]);
         qInt.enqueue(intList[1]);
         qInt.enqueue(intList[2]);
         qInt.enqueue(intList[3]);
-        System.out.println("\tDeque Element: " + qInt.dequeue());
-        System.out.println("\tDeque Element: " + qInt.dequeue());
+        StdOut.println("\tDeque Element: " + qInt.dequeue());
+        StdOut.println("\tDeque Element: " + qInt.dequeue());
         qInt.printVariables();
 
-        System.out.println("\nTEST: iterator()");
-        System.out.print("\titerator: ");
+        StdOut.println("\nTEST: iterator()");
+        StdOut.print("\titerator: ");
         for (Integer s: qInt) {
-            System.out.print(s + " ");
+            StdOut.print(s + " ");
         }
     }
 }

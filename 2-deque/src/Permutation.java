@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Iterator;
 
@@ -16,7 +17,7 @@ public class Permutation {
         Iterator<String> iterator = randQueue.iterator();
 
         for (int i = 0; i < permutations; i++) {
-            System.out.println(iterator.next());
+            StdOut.println(iterator.next());
         }
     }
 }
