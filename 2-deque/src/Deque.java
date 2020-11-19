@@ -35,6 +35,10 @@ public class Deque<Item> implements Iterable<Item> {
         return first == null;
     }
 
+    public int size() {
+        return size;
+    }
+
     /**
      * Adds an item to the start of the deque
      * @param item The item to add to the start of the deque
@@ -205,6 +209,11 @@ public class Deque<Item> implements Iterable<Item> {
         } else {
             StdOut.println("FAIL");
         }
+
+        StdOut.println();
+
+        StdOut.println("Test: size()");
+        StdOut.println("size: " + dequeInt.size());
 
         StdOut.println();
 
