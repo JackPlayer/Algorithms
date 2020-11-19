@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -105,7 +104,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         private final Item[] randQueue;
         private int curr;
         public RandArrIterator() {
-            randQueue = Arrays.copyOf(queue, size);
+            randQueue = (Item[]) new Object[size];
+
+            if (size >= 0) System.arraycopy(queue, 0, randQueue, 0, size);
             curr = 0;
             StdRandom.shuffle(randQueue);
         }
