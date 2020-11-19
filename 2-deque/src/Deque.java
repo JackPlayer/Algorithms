@@ -1,4 +1,3 @@
-import javax.naming.OperationNotSupportedException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -154,8 +153,8 @@ public class Deque<Item> implements Iterable<Item> {
          */
         public void remove() {
             try {
-                throw new OperationNotSupportedException("Remove is not supported for iterator");
-            } catch (OperationNotSupportedException e) {
+                throw new UnsupportedOperationException("Remove is not supported for iterator");
+            } catch (UnsupportedOperationException e) {
                 e.printStackTrace();
             }
         }
