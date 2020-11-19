@@ -104,7 +104,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (first != null) {
             first.prev = null;
         }
-        size --;
+        size--;
         return temp.item;
     }
 
@@ -156,11 +156,7 @@ public class Deque<Item> implements Iterable<Item> {
          * Operation not implemented. Throws a OperationNotSupportedException
          */
         public void remove() {
-            try {
-                throw new UnsupportedOperationException("Remove is not supported for iterator");
-            } catch (UnsupportedOperationException e) {
-                e.printStackTrace();
-            }
+            throw new UnsupportedOperationException("Remove is not supported for iterator");
         }
 
         /**
@@ -187,7 +183,7 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         StdOut.println("TESTING");
         String[] testStrings = {"a", "b", "c", "d", "e", "f", "g"};
-        int[] testInts = {1,2,3,4,5,6};
+        int[] testInts = {1, 2, 3, 4, 5, 6};
 
         Deque<Integer> dequeInt = new Deque<>();
         Deque<String> dequeStr = new Deque<>();

@@ -5,8 +5,6 @@ import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
-@SuppressWarnings("unchecked")
-
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] queue;
@@ -74,7 +72,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         queue[randIndex] = null;
 
         shiftQueueLeft(randIndex);
-        size --;
+        size--;
         return randItem;
     }
 
@@ -117,6 +115,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
 
         public Item next() {
+            if (curr > randQueue.length) {
+                throw new NoSuchElementException("No element left to get in iterator");
+            }
             Item returnItem = randQueue[curr];
             curr++;
             return returnItem;
@@ -127,7 +128,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
      * Resizes the queue
      * @param newSize The new size of the queue
      */
-    private void resize (int newSize) {
+    private void resize(int newSize) {
         Item[] newArr = (Item[]) new Object[newSize];
 
         for (int i = 0; i < size; i++) {
