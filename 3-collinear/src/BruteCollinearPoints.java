@@ -2,18 +2,27 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
-import javax.sound.sampled.Line;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-
+/**
+ * BruteCollinearPoints
+ * Finds collinear points with brute force algorithm
+ * For coursera algorithms course
+ */
 public class BruteCollinearPoints {
-    private int size;
-    private final LineSegment[] lineSegments;
+    private final ArrayList<LineSegment> lineSegments;
     public BruteCollinearPoints(Point[] points) {
-        if (points == null) throw new IllegalArgumentException();
-        if (repeated(points)) throw new IllegalArgumentException();
+        // Exception cases
+        if (points == null) throw new IllegalArgumentException("Points array is null");
+        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
+        for (Point point : points) {
+            if (point == null) {
+                throw new IllegalArgumentException("An is null");
+            }
+        }
 
-        size = 0;
-        lineSegments = new LineSegment[points.length];
+        lineSegments = new ArrayList<>(1);
         bruteForce(points);
     }
 
@@ -23,8 +32,8 @@ public class BruteCollinearPoints {
      */
     private void bruteForce(Point[] points) {
         int pointLength = points.length;
-        System.out.println("Points" + points.length);
-
+        ArrayList<Double> slopeList = new ArrayList<>(1);
+        Arrays.sort(points);
 
         for (int p1Idx = 0; p1Idx < pointLength; p1Idx++) {
             for (int p2Idx = 1; p2Idx < pointLength; p2Idx++) {
@@ -33,17 +42,22 @@ public class BruteCollinearPoints {
                     if (p3Idx == p1Idx || p3Idx == p2Idx) continue;
                     for (int p4Idx = 3; p4Idx < pointLength; p4Idx++) {
                         if (p4Idx == p1Idx || p4Idx == p3Idx || p4Idx == p2Idx) continue;
-                        // Any points are null
-                        if (points[p1Idx] == null || points[p2Idx] == null || points[p3Idx] == null || points[p4Idx] == null) {
-                            throw new IllegalArgumentException();
-                        }
 
+                        // p1 -> p4 are now distinct
 
+                        // Are the slopes connecting these 4 points equal
                         if (slopesEqual(points[p1Idx], points[p2Idx], points[p3Idx], points[p4Idx])) {
-                            System.out.println("Equal");
-                            LineSegment ls = new LineSegment(points[p1Idx], points[p4Idx]);
-                            lineSegments[p1Idx] = ls;
-                            size++;
+
+                            Point[] fourPointList = {points[p1Idx], points[p2Idx], points[p3Idx], points[p4Idx]};
+                            // Arrange them in order
+                            Arrays.sort(fourPointList);
+                            double slope = points[p1Idx].slopeTo(points[p2Idx]);
+                            if (!slopeList.contains(slope)) {
+                                // Create a line segment from the smallest to the largest
+                                LineSegment ls = new LineSegment(fourPointList[0], fourPointList[3]);
+                                lineSegments.add(ls);
+                                slopeList.add(slope);
+                            }
                         }
                     }
                 }
@@ -75,7 +89,7 @@ public class BruteCollinearPoints {
      * @return The number of line segments
      */
     public int numSegments() {
-        return size;
+        return lineSegments.size();
     }
 
     /**
@@ -83,16 +97,8 @@ public class BruteCollinearPoints {
      * @return The collinear segments
      */
     public LineSegment[] segments() {
-        int lsSize = 0;
-        for (LineSegment lineSegment : lineSegments) {
-            if (lineSegment == null) break;
-            lsSize++;
-        }
-
-        LineSegment[] ls = new LineSegment[lsSize];
-
-        if (lsSize >= 0) System.arraycopy(lineSegments, 0, ls, 0, lsSize);
-
+        LineSegment[] ls = new LineSegment[lineSegments.size()];
+        ls = (lineSegments.toArray(ls));
         return ls;
     }
 
@@ -124,6 +130,9 @@ public class BruteCollinearPoints {
             segment.draw();
         }
         StdDraw.show();
+
+        //  Print out the number of points
+        StdOut.println("Num Segments:" + collinear.numSegments());
     }
 
 

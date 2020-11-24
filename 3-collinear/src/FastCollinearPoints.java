@@ -18,6 +18,14 @@ public class FastCollinearPoints {
      * @param points The points to find colinear segments from
      */
     public FastCollinearPoints(Point[] points) {
+        // Exception cases
+        if (points == null) throw new IllegalArgumentException("Points array is null");
+        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
+        for (Point point : points) {
+            if (point == null) {
+                throw new IllegalArgumentException("An is null");
+            }
+        }
         lineSegments = new ArrayList<>(1);
         ArrayList<Double> slopeList = new ArrayList<>(1);
 
@@ -78,12 +86,20 @@ public class FastCollinearPoints {
         return ls;
     }
 
-
-//    private void printPointArr(Point[] arr) {
-//        for (Point p : arr) {
-//            System.out.println(p.toString());
-//        }
-//    }
+    /**
+     *
+     * @param points Array of points
+     * @return true if there are repeated points
+     */
+    private boolean repeated(Point[] points) {
+        for (int i = 0; i < points.length; i++) {
+            for (int j = 0; j < points.length; j++) {
+                if (j == i) continue;
+                if (points[i].compareTo(points[j]) == 0) return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Testing suite
