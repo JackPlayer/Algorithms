@@ -82,7 +82,12 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        if (this.y == that.y) {
+            if (this.x == that.x) return 0;
+
+            return this.x < that.x ? -1 : 1;
+        }
+        return this.y < that.y ? -1 : 1;
     }
 
     /**
@@ -92,7 +97,16 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+        Point p = this;
+        class Comp implements Comparator<Point> {
+
+            @Override
+            public int compare(Point o1, Point o2) {
+                return Double.compare(p.slopeTo(o1), p.slopeTo(o2));
+            }
+        }
+
+        return new Comp();
     }
 
 
