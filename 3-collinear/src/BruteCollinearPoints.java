@@ -85,6 +85,7 @@ public class BruteCollinearPoints {
         return p1.slopeTo(p2) == p1.slopeTo(p3)
                 && p1.slopeTo(p3) == p1.slopeTo(p4);
     }
+
     /**
      * The number of line segments of 4
      * @return The number of line segments
