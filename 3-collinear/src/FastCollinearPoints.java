@@ -2,8 +2,10 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
@@ -28,42 +30,42 @@ public class FastCollinearPoints {
         if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
 
         lineSegments = new ArrayList<>(1);
-        ArrayList<Double> slopeList = new ArrayList<>(1);
 
         // Sort into normal order
         Arrays.sort(points);
         Point[] pointsCopy = points.clone();
 
-        for (Point p : pointsCopy) {
 
-            // Sort into normal order first to maintain stability
+        for (int pIndex = 0; pIndex < points.length; pIndex++) {
+            Point p = pointsCopy[pIndex];
             Arrays.sort(points);
-
-            // Sort based off slope order
             Arrays.sort(points, p.slopeOrder());
 
-            int numCollinear = 0;
-            double currSlope = p.slopeTo(points[1]);
-            Point endElement = null;
 
-            int index = 0;
-            for (Point q : points) {
-                index++;
-                if (q == p) continue;
-                if (currSlope != p.slopeTo(q) || index == points.length - 1) {
-                    if (currSlope == p.slopeTo(q)) {
-                        numCollinear++;
-                        endElement = q;
+            Double currSlope = null;
+            ArrayList<Point> collinearPoints = new ArrayList<>(1);
+            collinearPoints.add(p);
+            for (int qIndex = 1; qIndex < points.length; qIndex++) {
+                Point q = points[qIndex];
+                if (currSlope == null) currSlope = p.slopeTo(q);
+
+                if (p.slopeTo(q) == currSlope) {
+                    collinearPoints.add(q);
+
+                    // The last element to check in the list
+                    if (qIndex == points.length - 1 && collinearPoints.size() >= 3) {
+                        Collections.sort(collinearPoints);
+                        lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
                     }
-                    if (numCollinear >= 3 && !slopeList.contains(currSlope)) {
-                        lineSegments.add(new LineSegment(p, endElement));
-                        slopeList.add(currSlope);
-                    }
-                    currSlope = p.slopeTo(q);
-                    numCollinear = 1;
                 } else {
-                    numCollinear++;
-                    endElement = q;
+                    if (collinearPoints.size() >= 3) {
+                        Collections.sort(collinearPoints);
+                        lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
+                    }
+
+                    currSlope = p.slopeTo(q);
+                    collinearPoints = new ArrayList<>(1);
+                    collinearPoints.add(p);
                 }
             }
         }
