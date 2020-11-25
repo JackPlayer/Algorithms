@@ -22,7 +22,6 @@ public class BruteCollinearPoints {
         }
         if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
 
-
         lineSegments = new ArrayList<>(1);
         bruteForce(points);
     }
@@ -33,32 +32,30 @@ public class BruteCollinearPoints {
      */
     private void bruteForce(Point[] points) {
         int pointLength = points.length;
-        ArrayList<Double> slopeList = new ArrayList<>(1);
-        Arrays.sort(points);
 
+        //Arrays.sort(points);
         for (int p1Idx = 0; p1Idx < pointLength; p1Idx++) {
-            for (int p2Idx = 1; p2Idx < pointLength; p2Idx++) {
-                if ( p1Idx == p2Idx) continue;
-                for (int p3Idx = 2; p3Idx < pointLength; p3Idx++) {
-                    if (p3Idx == p1Idx || p3Idx == p2Idx) continue;
-                    for (int p4Idx = 3; p4Idx < pointLength; p4Idx++) {
-                        if (p4Idx == p1Idx || p4Idx == p3Idx || p4Idx == p2Idx) continue;
 
+            for (int p2Idx = p1Idx + 1; p2Idx < pointLength; p2Idx++) {
+                if ( p1Idx == p2Idx) continue;
+
+                for (int p3Idx = p2Idx + 1; p3Idx < pointLength; p3Idx++) {
+                    if (p3Idx == p1Idx || p3Idx == p2Idx) continue;
+
+                    for (int p4Idx = p3Idx + 1; p4Idx < pointLength; p4Idx++) {
+                        if (p4Idx == p1Idx || p4Idx == p3Idx || p4Idx == p2Idx) continue;
                         // p1 -> p4 are now distinct
 
                         // Are the slopes connecting these 4 points equal
                         if (slopesEqual(points[p1Idx], points[p2Idx], points[p3Idx], points[p4Idx])) {
-
                             Point[] fourPointList = {points[p1Idx], points[p2Idx], points[p3Idx], points[p4Idx]};
+
                             // Arrange them in order
                             Arrays.sort(fourPointList);
-                            double slope = points[p1Idx].slopeTo(points[p2Idx]);
-                            if (!slopeList.contains(slope)) {
-                                // Create a line segment from the smallest to the largest
-                                LineSegment ls = new LineSegment(fourPointList[0], fourPointList[3]);
-                                lineSegments.add(ls);
-                                slopeList.add(slope);
-                            }
+
+                            // Create a line segment from the smallest to the largest
+                            LineSegment ls = new LineSegment(fourPointList[0], fourPointList[3]);
+                            lineSegments.add(ls);
                         }
                     }
                 }
@@ -100,6 +97,7 @@ public class BruteCollinearPoints {
      */
     public LineSegment[] segments() {
         LineSegment[] ls = new LineSegment[lineSegments.size()];
+
         ls = (lineSegments.toArray(ls));
         return ls;
     }
@@ -136,6 +134,4 @@ public class BruteCollinearPoints {
         //  Print out the number of points
         StdOut.println("Num Segments:" + collinear.numberOfSegments());
     }
-
-
 }

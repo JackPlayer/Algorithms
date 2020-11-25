@@ -25,5 +25,6 @@ hs_err_pid*
 # IntelliJ
 .idea
 *.iml
-3-collinear/resources/*
+*.txt
+*.png
 
