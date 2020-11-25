@@ -33,11 +33,10 @@ public class BruteCollinearPoints {
     private void bruteForce(Point[] points) {
         int pointLength = points.length;
 
-        //Arrays.sort(points);
         for (int p1Idx = 0; p1Idx < pointLength; p1Idx++) {
 
             for (int p2Idx = p1Idx + 1; p2Idx < pointLength; p2Idx++) {
-                if ( p1Idx == p2Idx) continue;
+                if (p1Idx == p2Idx) continue;
 
                 for (int p3Idx = p2Idx + 1; p3Idx < pointLength; p3Idx++) {
                     if (p3Idx == p1Idx || p3Idx == p2Idx) continue;
