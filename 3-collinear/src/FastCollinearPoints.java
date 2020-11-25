@@ -45,7 +45,6 @@ public class FastCollinearPoints {
             ArrayList<Point> collinearPoints = new ArrayList<>(1);
             collinearPoints.add(p);
             for (int qIndex = 1; qIndex < points.length; qIndex++) {
-                if (qIndex == pIndex) continue;
                 Point q = points[qIndex];
 
                 if (currSlope == null) currSlope = p.slopeTo(q);
