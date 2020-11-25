@@ -37,7 +37,7 @@ public class FastCollinearPoints {
 
         for (int pIndex = 0; pIndex < points.length; pIndex++) {
             Point p = pointsCopy[pIndex];
-            Arrays.sort(points);
+
             Arrays.sort(points, p.slopeOrder());
 
 
@@ -52,19 +52,25 @@ public class FastCollinearPoints {
                     collinearPoints.add(q);
 
                     // The last element to check in the list
-                    if (qIndex == points.length - 1 && collinearPoints.size() >= 3) {
+                    if (qIndex == points.length - 1 && collinearPoints.size() >= 4) {
                         Collections.sort(collinearPoints);
-                        lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
+                        if (collinearPoints.get(0) == p ||  collinearPoints.get(collinearPoints.size() - 1) == p) {
+                            lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
+
+                        }
                     }
                 } else {
-                    if (collinearPoints.size() >= 3) {
+                    if (collinearPoints.size() >= 4) {
                         Collections.sort(collinearPoints);
-                        lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
+                        if (collinearPoints.get(0) == p ||  collinearPoints.get(collinearPoints.size() - 1) == p) {
+                            lineSegments.add(new LineSegment(collinearPoints.get(0), collinearPoints.get(collinearPoints.size() - 1)));
+                        }
                     }
 
                     currSlope = p.slopeTo(q);
-                    collinearPoints = new ArrayList<>(1);
+                    collinearPoints = new ArrayList<>(2);
                     collinearPoints.add(p);
+                    collinearPoints.add(q);
                 }
             }
         }
