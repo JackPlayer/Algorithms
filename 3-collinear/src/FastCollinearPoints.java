@@ -20,12 +20,13 @@ public class FastCollinearPoints {
     public FastCollinearPoints(Point[] points) {
         // Exception cases
         if (points == null) throw new IllegalArgumentException("Points array is null");
-        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
         for (Point point : points) {
             if (point == null) {
-                throw new IllegalArgumentException("An is null");
+                throw new IllegalArgumentException("A point is null");
             }
         }
+        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
+
         lineSegments = new ArrayList<>(1);
         ArrayList<Double> slopeList = new ArrayList<>(1);
 
@@ -72,7 +73,7 @@ public class FastCollinearPoints {
      * Gets the number of line segments
      * @return The number of line segments in the points array
      */
-    public int numSegments() {
+    public int numberOfSegments() {
         return lineSegments.size();
     }
 
@@ -135,6 +136,6 @@ public class FastCollinearPoints {
         StdDraw.show();
 
         // Print out the number of points
-        StdOut.println("Num Segments:" + collinear.numSegments());
+        StdOut.println("Num Segments:" + collinear.numberOfSegments());
     }
 }

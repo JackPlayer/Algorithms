@@ -15,12 +15,13 @@ public class BruteCollinearPoints {
     public BruteCollinearPoints(Point[] points) {
         // Exception cases
         if (points == null) throw new IllegalArgumentException("Points array is null");
-        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
         for (Point point : points) {
             if (point == null) {
                 throw new IllegalArgumentException("An is null");
             }
         }
+        if (repeated(points)) throw new IllegalArgumentException("A point is repeated");
+
 
         lineSegments = new ArrayList<>(1);
         bruteForce(points);
@@ -88,7 +89,7 @@ public class BruteCollinearPoints {
      * The number of line segments of 4
      * @return The number of line segments
      */
-    public int numSegments() {
+    public int numberOfSegments() {
         return lineSegments.size();
     }
 
@@ -132,7 +133,7 @@ public class BruteCollinearPoints {
         StdDraw.show();
 
         //  Print out the number of points
-        StdOut.println("Num Segments:" + collinear.numSegments());
+        StdOut.println("Num Segments:" + collinear.numberOfSegments());
     }
 
 
