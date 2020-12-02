@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/1-percolation/1-percolation.iml" filepath="$PROJECT_DIR$/1-percolation/1-percolation.iml" />
       <module fileurl="file://$PROJECT_DIR$/2-deque/2-deque.iml" filepath="$PROJECT_DIR$/2-deque/2-deque.iml" />
       <module fileurl="file://$PROJECT_DIR$/3-collinear/3-collinear.iml" filepath="$PROJECT_DIR$/3-collinear/3-collinear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/4-puzzle/4-puzzle.iml" filepath="$PROJECT_DIR$/4-puzzle/4-puzzle.iml" />
       <module fileurl="file://$PROJECT_DIR$/Algorithms.iml" filepath="$PROJECT_DIR$/Algorithms.iml" />
     </modules>
   </component>
