@@ -2,6 +2,8 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Iterator;
+
 public final class Board {
 
     private final int[][] boardTiles;
@@ -198,6 +200,7 @@ public final class Board {
 
             // solve the slider puzzle
             Board board = new Board(tiles);
+            Board boardEquals = new Board(tiles);
 
             StdOut.println("----BOARD TESTING----");
             StdOut.println("Test 1: toString() displays correctly");
@@ -217,6 +220,19 @@ public final class Board {
             StdOut.println("Test 4: manhattan()");
             StdOut.println("\tmanhattan: " + board.manhattan());
             StdOut.println();
+
+            StdOut.println("Text 5: equals()");
+            StdOut.println("\tequals: " + board.equals(boardEquals));
+
+            StdOut.println();
+            StdOut.println("Text 6: neighbours()");
+            Iterable neighbors = board.neighbors();
+            for (Iterator it = neighbors.iterator(); it.hasNext(); ) {
+                Board neighbourBoard = (Board) it.next();
+
+                StdOut.println(neighbourBoard.toString());
+
+            }
 
         }
     }
