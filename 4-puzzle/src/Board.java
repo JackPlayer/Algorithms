@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
 public final class Board {
@@ -78,6 +79,93 @@ public final class Board {
             }
         }
         return totalManhattan;
+    }
+
+    /**
+     * Checks for equality between boards
+     * @param y The board to check equality against
+     * @return True if the board's have the same dimensions and their elements are the same.
+     */
+    public boolean equals(Object y) {
+        Board that = (Board) y;
+        return this.dimension() == that.dimension() && this.toString().equals(that.toString());
+    }
+
+    /**
+     * Is this board the goal board
+     * @return true if this board is the goal board
+     */
+    public boolean isGoal() {
+        return this.hamming() == 0;
+    }
+
+    /**
+     * Gets the neighbouring boards
+     * @return An iterable object of the neighbouring boards
+     */
+    public Iterable<Board> neighbors() {
+        Stack<Board> neighbours = new Stack<Board>();
+        int openRow = -1;
+        int openCol = -1;
+        for (int i = 0; i < boardTiles.length; i++) {
+            for (int j = 0; j < boardTiles[i].length; j++) {
+                if (boardTiles[i][j] == 0) {
+                    openCol = j;
+                    openRow = i;
+                    break;
+                }
+            }
+        }
+
+        int[][] newBoardTop = newBoardNeighbour(openRow, openCol, openRow + 1, openCol);
+        int[][] newBoardBottom = newBoardNeighbour(openRow, openCol, openRow - 1, openCol);
+        int[][] newBoardLeft = newBoardNeighbour(openRow, openCol, openRow, openCol - 1);
+        int[][] newBoardRight = newBoardNeighbour(openRow, openCol, openRow, openCol + 1);
+
+        if (newBoardBottom != null) {
+            neighbours.push(new Board(newBoardBottom));
+        }
+
+        if (newBoardTop != null) {
+            neighbours.push(new Board(newBoardTop));
+        }
+
+        if (newBoardLeft != null) {
+            neighbours.push(new Board(newBoardLeft));
+        }
+
+        if (newBoardRight != null) {
+            neighbours.push(new Board(newBoardRight));
+        }
+
+        return neighbours;
+    }
+
+    /**
+     * Creates a new board by moving newRow, newCol into openRow, openCol
+     * @param openRow The open row
+     * @param openCol The open column
+     * @param newRow The new row
+     * @param newCol the new column
+     *
+     * @return The new neighbour board. If the swap cannot be performed null is returned
+     */
+    private int[][] newBoardNeighbour(int openRow, int openCol, int newRow, int newCol) {
+        int[][] newBoard = new int[boardTiles.length][boardTiles.length];
+
+        // Copy array
+        for (int i = 0; i < newBoard.length; i++) {
+            for (int j = 0; j < newBoard[i].length; j++) {
+                newBoard[i][j] = boardTiles[i][j];
+            }
+        }
+        try {
+            newBoard[openRow][openCol] = newBoard[newRow][newCol];
+            newBoard[newRow][newCol] = 0;
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return null;
+        }
+        return newBoard;
     }
 
     /**
