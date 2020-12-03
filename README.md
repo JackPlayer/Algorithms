@@ -27,5 +27,9 @@ This repository contains my solutions for the programming assignments
 [Specification Document](https://coursera.cs.princeton.edu/algs4/assignments/percolation/specification.php)
 ### 2. Deques and Randomized Queues
 [Specification Document](https://coursera.cs.princeton.edu/algs4/assignments/queues/specification.php)
+### 3. Collinear Points
+[Specification Document](https://coursera.cs.princeton.edu/algs4/assignments/collinear/specification.php)
+### 4. 8-Puzzle Solver
+[Specification Document](https://coursera.cs.princeton.edu/algs4/assignments/8puzzle/specification.php)
 
 
