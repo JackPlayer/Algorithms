@@ -8,7 +8,7 @@ public class Solver {
     private int moves;
     private final boolean solvable;
 
-    public static class SearchNode implements Comparable<SearchNode> {
+    private static class SearchNode implements Comparable<SearchNode> {
         private final Board board;
         private final SearchNode prev;
         private final int moves;
@@ -35,10 +35,6 @@ public class Solver {
 
         public int getMoves() {
             return moves;
-        }
-
-        private int hammingPriority() {
-            return board.hamming() + moves;
         }
 
         private int manhattanPriority() {

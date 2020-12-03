@@ -4,9 +4,12 @@ import edu.princeton.cs.algs4.StdOut;
 
 public final class Board {
 
-    private final int[][] boardTiles;
-    public Board (int[][] tiles) {
-        boardTiles = tiles;
+    private int[][] boardTiles;
+    public Board(int[][] tiles) {
+        boardTiles = new int[tiles.length][tiles.length];
+        for (int i = 0; i < tiles.length; i ++) {
+            System.arraycopy(tiles[i], 0, boardTiles[i], 0, tiles[i].length);
+        }
     }
 
     /**
@@ -67,9 +70,9 @@ public final class Board {
                 if (goal == 0) continue;
                 boolean found = false;
                 for (int k = 0; k < boardTiles.length; k++) {
-                    for (int l = 0; l < boardTiles.length; l++) {
-                        if (goal == boardTiles[k][l]) {
-                            totalManhattan += Math.abs((k - i)) + Math.abs((l - j));
+                    for (int m = 0; m < boardTiles.length; m++) {
+                        if (goal == boardTiles[k][m]) {
+                            totalManhattan += Math.abs((k - i)) + Math.abs((m - j));
                             found = true;
                             break;
                         }
@@ -87,9 +90,10 @@ public final class Board {
      * @return True if the board's have the same dimensions and their elements are the same.
      */
     public boolean equals(Object y) {
-        assert y instanceof Board;
+        assert y.getClass() == this.getClass();
         Board that = (Board) y;
-        return this.dimension() == that.dimension() && this.toString().equals(that.toString());
+        String thatStr = that.toString();
+        return this.dimension() == that.dimension() && this.toString().equals(thatStr);
     }
 
     /**
@@ -138,7 +142,6 @@ public final class Board {
         if (newBoardRight != null) {
             neighbours.push(new Board(newBoardRight));
         }
-
         return neighbours;
     }
 
@@ -153,11 +156,10 @@ public final class Board {
         for (int i = 0; i < boardTiles.length; i++) {
             System.arraycopy(boardTiles[i], 0, twinInts[i], 0, boardTiles.length);
         }
-
         for (int i = 0; i < twinInts.length; i++) {
             if (swapped) break;
             for (int j = 0; j < twinInts.length; j++) {
-                boolean inBounds = (j+1 < twinInts[i].length );
+                boolean inBounds = (j+1 < twinInts[i].length);
                 if (inBounds) {
                     if (twinInts[i][j] != 0 && twinInts[i][j + 1] != 0) {
                         int temp = twinInts[i][j+1];
@@ -205,12 +207,10 @@ public final class Board {
     private int getGoalFromIndex(int i, int j) {
         if (i == boardTiles.length - 1 && j == boardTiles[0].length - 1) return 0;
         int n = boardTiles.length;
-        return ( (n * i + j) + 1);
+        return ((n * i + j) + 1);
     }
 
     public static void main(String[] args) {
-        String currentDirectory = System.getProperty("user.dir");
-        StdOut.print(currentDirectory);
         for (String filename : args) {
 
             // read in the board specified in the filename
