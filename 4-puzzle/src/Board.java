@@ -2,8 +2,6 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
-import java.util.Iterator;
-
 public final class Board {
 
     private final int[][] boardTiles;
@@ -89,6 +87,7 @@ public final class Board {
      * @return True if the board's have the same dimensions and their elements are the same.
      */
     public boolean equals(Object y) {
+        assert y instanceof Board;
         Board that = (Board) y;
         return this.dimension() == that.dimension() && this.toString().equals(that.toString());
     }
@@ -106,7 +105,7 @@ public final class Board {
      * @return An iterable object of the neighbouring boards
      */
     public Iterable<Board> neighbors() {
-        Stack<Board> neighbours = new Stack<Board>();
+        Stack<Board> neighbours = new Stack<>();
         int openRow = -1;
         int openCol = -1;
         for (int i = 0; i < boardTiles.length; i++) {
@@ -152,9 +151,7 @@ public final class Board {
         boolean swapped = false;
         int[][] twinInts = new int[boardTiles.length][boardTiles.length];
         for (int i = 0; i < boardTiles.length; i++) {
-            for (int j = 0; j < boardTiles.length; j++) {
-               twinInts[i][j] = boardTiles[i][j];
-            }
+            System.arraycopy(boardTiles[i], 0, twinInts[i], 0, boardTiles.length);
         }
 
         for (int i = 0; i < twinInts.length; i++) {
@@ -188,9 +185,7 @@ public final class Board {
 
         // Copy array
         for (int i = 0; i < newBoard.length; i++) {
-            for (int j = 0; j < newBoard[i].length; j++) {
-                newBoard[i][j] = boardTiles[i][j];
-            }
+            System.arraycopy(boardTiles[i], 0, newBoard[i], 0, newBoard[i].length);
         }
         try {
             newBoard[openRow][openCol] = newBoard[newRow][newCol];
@@ -257,14 +252,11 @@ public final class Board {
 
             StdOut.println();
             StdOut.println("Text 6: neighbours()");
-            Iterable neighbors = board.neighbors();
-            for (Iterator it = neighbors.iterator(); it.hasNext(); ) {
-                Board neighbourBoard = (Board) it.next();
+            for (Board neighbour : board.neighbors()) {
 
-                StdOut.println(neighbourBoard.toString());
+                StdOut.println(neighbour.toString());
 
             }
-
 
             StdOut.println();
             StdOut.println("Text 7: twin()");
