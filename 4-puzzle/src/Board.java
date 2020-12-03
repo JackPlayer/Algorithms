@@ -144,6 +144,37 @@ public final class Board {
     }
 
     /**
+     * Creates a new twin board
+     * Twin boards have two elements that are beside each other that have been swapped from the original board
+     * @return The new twin board
+     */
+    public Board twin() {
+        boolean swapped = false;
+        int[][] twinInts = new int[boardTiles.length][boardTiles.length];
+        for (int i = 0; i < boardTiles.length; i++) {
+            for (int j = 0; j < boardTiles.length; j++) {
+               twinInts[i][j] = boardTiles[i][j];
+            }
+        }
+
+        for (int i = 0; i < twinInts.length; i++) {
+            if (swapped) break;
+            for (int j = 0; j < twinInts.length; j++) {
+                boolean inBounds = (j+1 < twinInts[i].length );
+                if (inBounds) {
+                    if (twinInts[i][j] != 0 && twinInts[i][j + 1] != 0) {
+                        int temp = twinInts[i][j+1];
+                        twinInts[i][j+1] = twinInts[i][j];
+                        twinInts[i][j] = temp;
+                        swapped = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return new Board(twinInts);
+    }
+    /**
      * Creates a new board by moving newRow, newCol into openRow, openCol
      * @param openRow The open row
      * @param openCol The open column
@@ -233,6 +264,13 @@ public final class Board {
                 StdOut.println(neighbourBoard.toString());
 
             }
+
+
+            StdOut.println();
+            StdOut.println("Text 7: twin()");
+            Board twin = board.twin();
+            StdOut.println(twin.toString());
+
 
         }
     }
