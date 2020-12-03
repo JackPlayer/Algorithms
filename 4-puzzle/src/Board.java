@@ -2,12 +2,14 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
+import java.util.Arrays;
+
 public final class Board {
 
-    private int[][] boardTiles;
+    private final int[][] boardTiles;
     public Board(int[][] tiles) {
         boardTiles = new int[tiles.length][tiles.length];
-        for (int i = 0; i < tiles.length; i ++) {
+        for (int i = 0; i < tiles.length; i++) {
             System.arraycopy(tiles[i], 0, boardTiles[i], 0, tiles[i].length);
         }
     }
@@ -44,8 +46,9 @@ public final class Board {
      */
     public int hamming() {
         int hammingNum = 0;
-        for (int i = 0; i < boardTiles.length; i++) {
-            for (int j = 0; j < boardTiles[i].length; j++) {
+        int n = boardTiles.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (getGoalFromIndex(i, j) == 0) continue;
                 if (boardTiles[i][j] != getGoalFromIndex(i, j)) {
                     hammingNum++;
@@ -62,23 +65,16 @@ public final class Board {
      */
     public int manhattan() {
         int totalManhattan = 0;
-
-        for (int i = 0; i < boardTiles.length; i++) {
-            for (int j = 0; j < boardTiles.length; j++) {
-                if (i == boardTiles.length - 1 && j == boardTiles[i].length - 1) continue;
-                int goal = getGoalFromIndex(i, j);
-                if (goal == 0) continue;
-                boolean found = false;
-                for (int k = 0; k < boardTiles.length; k++) {
-                    for (int m = 0; m < boardTiles.length; m++) {
-                        if (goal == boardTiles[k][m]) {
-                            totalManhattan += Math.abs((k - i)) + Math.abs((m - j));
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (found) break;
-                }
+        int n = boardTiles.length;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+               if (boardTiles[i][j] != 0) {
+                   int targetX = (boardTiles[i][j] - 1) / n;
+                   int targetY = (boardTiles[i][j] - 1) % n;
+                   int dx = i - targetX;
+                   int dy = j - targetY;
+                   totalManhattan += Math.abs(dx) + Math.abs(dy);
+               }
             }
         }
         return totalManhattan;
@@ -90,10 +86,13 @@ public final class Board {
      * @return True if the board's have the same dimensions and their elements are the same.
      */
     public boolean equals(Object y) {
-        assert y.getClass() == this.getClass();
-        Board that = (Board) y;
-        String thatStr = that.toString();
-        return this.dimension() == that.dimension() && this.toString().equals(thatStr);
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+        final Board that = (Board) y;
+
+        if (!(this.dimension() == that.dimension())) return false;
+
+        return Arrays.deepEquals(boardTiles, that.boardTiles);
     }
 
     /**
@@ -127,19 +126,19 @@ public final class Board {
         int[][] newBoardLeft = newBoardNeighbour(openRow, openCol, openRow, openCol - 1);
         int[][] newBoardRight = newBoardNeighbour(openRow, openCol, openRow, openCol + 1);
 
-        if (newBoardBottom != null) {
+        if (newBoardBottom.length > 0) {
             neighbours.push(new Board(newBoardBottom));
         }
 
-        if (newBoardTop != null) {
+        if (newBoardTop.length > 0) {
             neighbours.push(new Board(newBoardTop));
         }
 
-        if (newBoardLeft != null) {
+        if (newBoardLeft.length > 0) {
             neighbours.push(new Board(newBoardLeft));
         }
 
-        if (newBoardRight != null) {
+        if (newBoardRight.length > 0) {
             neighbours.push(new Board(newBoardRight));
         }
         return neighbours;
@@ -193,7 +192,7 @@ public final class Board {
             newBoard[openRow][openCol] = newBoard[newRow][newCol];
             newBoard[newRow][newCol] = 0;
         } catch (ArrayIndexOutOfBoundsException e) {
-            return null;
+            return new int[0][0];
         }
         return newBoard;
     }

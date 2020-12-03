@@ -4,9 +4,8 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
 
 public class Solver {
-    private SearchNode delNode;
-    private int moves;
-    private final boolean solvable;
+    private final SearchNode delNode;
+    private boolean solved;
 
     private static class SearchNode implements Comparable<SearchNode> {
         private final Board board;
@@ -41,8 +40,8 @@ public class Solver {
             return board.manhattan() + moves;
         }
 
-        public int compareTo(SearchNode o) {
-            return this.getPriority() - o.getPriority();
+        public int compareTo(SearchNode node) {
+            return this.getPriority() - node.getPriority();
         }
     }
 
@@ -52,6 +51,8 @@ public class Solver {
      */
     public Solver(Board initial) {
         if (initial == null) throw new IllegalArgumentException("The initial game board cannot be null");
+        solved = false;
+        SearchNode delNode1;
         SearchNode delNodeTwin;
         MinPQ<SearchNode>  pq;
         MinPQ<SearchNode> pqTwin;
@@ -66,30 +67,36 @@ public class Solver {
         pq.insert(initialBoard);
         pqTwin.insert(initialTwinBoard);
 
-        delNode = pq.delMin();
+        delNode1 = pq.delMin();
         delNodeTwin = pqTwin.delMin();
 
-        while (!delNode.getBoard().isGoal() && !delNodeTwin.getBoard().isGoal()) {
-            Iterable<Board> neighbours = delNode.getBoard().neighbors();
+        while (!delNode1.getBoard().isGoal() && !delNodeTwin.getBoard().isGoal()) {
+            Iterable<Board> neighbours = delNode1.getBoard().neighbors();
             Iterable<Board> neighboursTwin = delNodeTwin.getBoard().neighbors();
 
+            Board boardToCheck = null;
+            Board boardToCheckTwin = null;
+             if (delNode1.prev != null) {
+                 boardToCheck = delNode1.prev.getBoard();
+             }
+             if (delNodeTwin.prev != null) {
+                 boardToCheckTwin = delNodeTwin.prev.getBoard();
+             }
             for (Board neighbour : neighbours) {
-                if (!delNode.getBoard().equals(neighbour)) {
-                    pq.insert(new SearchNode(neighbour, delNode));
-                }
+
+                if (neighbour.equals(boardToCheck)) continue;
+                pq.insert(new SearchNode(neighbour, delNode1));
             }
+
             for (Board neighbour : neighboursTwin) {
-                if (!delNodeTwin.getBoard().equals(neighbour)) {
-                    pqTwin.insert(new SearchNode(neighbour, delNodeTwin));
-
-                }
+                if (neighbour.equals(boardToCheckTwin)) continue;
+                pqTwin.insert(new SearchNode(neighbour, delNodeTwin));
             }
-
-            moves ++;
             delNodeTwin = pqTwin.delMin();
-            delNode = pq.delMin();
+            delNode1 = pq.delMin();
         }
-        solvable = delNode.getBoard().isGoal();
+        delNode = delNode1;
+        if (delNode.getBoard().isGoal()) solved = true;
     }
 
     /**
@@ -97,7 +104,7 @@ public class Solver {
      * @return true if it is solvable
      */
     public boolean isSolvable() {
-        return solvable;
+        return solved;
     }
 
     /**
@@ -105,8 +112,8 @@ public class Solver {
      * @return The number of moves to solve. -1 if the puzzle is not solvable
      */
     public int moves() {
-        if (!solvable) return -1;
-        return this.moves;
+        if (!solved) return -1;
+        return delNode.getMoves();
     }
 
     /**
@@ -114,7 +121,7 @@ public class Solver {
      * @return The shortest sequence of boards to solve the puzzle
      */
     public Iterable<Board> solution() {
-        if (!solvable) return null;
+        if (!solved) return null;
         Stack<Board> boardStack = new Stack<>();
         SearchNode currNode = delNode;
         do {
